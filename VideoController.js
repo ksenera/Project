@@ -14,4 +14,12 @@ export default class VideoStream {
       this.video.size(width, height);
       this.video.hide();
     }
+
+    start() {
+
+    }
+
+    getFrame() {
+        return this.video;
+    }
 }
