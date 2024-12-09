@@ -1,7 +1,9 @@
 /** 
  * CLASS       : CanvasView.js 
  * 
- * DESCRIPTION : View class that renders the canvas
+ * DESCRIPTION : View class that renders the canvas for the video stream 
+ *               as well as other canvases for stamps, rectangle and ellipse 
+ *               selects. 
  * 
  */
 
@@ -26,6 +28,9 @@ class CanvasView {
 
         // render video frame 
         image(videoFrame, x, y, this.videoWidth, this.videoHeight);
+
+        // render the canvas specifically for stamps 
+        image(stampsCanvas, x, y, this.videoWidth, this.videoHeight);
 
         noFill();
         stroke(0);

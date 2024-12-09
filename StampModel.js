@@ -48,8 +48,8 @@ class StampModel {
         return { x, y };
     }
 
-    // render stamps 
-    renderStamps() {
-        return this.stamps;
+    // render stamps on its own canvas
+    getStampsCanvas() {
+        return this.stampsCanvas
     }
 }
