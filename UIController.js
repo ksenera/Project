@@ -32,6 +32,16 @@ class UIController {
         });
 
         // initialize stamp buttons as per the images in assets folder 
+        const stampImages = ["assets/cat.png", "assets/rainbow.jpg", 
+            "assets/redheart.jpg", "assets/starwand.png"];
+        stampImages.forEach((imageSrc, index) => {
+            const button = createButton(`Stamp ${index + 1}`);
+            button.position(10, 50 + index * 30);
+            button.mousePressed(() => {
+                this.stampModel.selectStamp(loadImage(imageSrc));
+            });
+            this.stampButtons.push(button);
+        });
 
         // deselect button for user to unselect a stamp previously chosen 
     } 
