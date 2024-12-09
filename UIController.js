@@ -6,12 +6,12 @@
  */
 
 class UIController {
-    constructor(filterModel) {
+    constructor(filterModel, stampModel) {
         this.filterModel = filterModel;
         this.filterSelector = createSelect();
 
         // adding ui controls for stamp model 
-        this.stampModel = this.stampModel;
+        this.stampModel = stampModel;
         this.stampButtons = [];
 
         this.initUI();
@@ -32,13 +32,13 @@ class UIController {
         });
 
         // initialize stamp buttons as per the images in assets folder 
-        const stampImages = ["assets/cat.png", "assets/rainbow.jpg", 
-            "assets/redheart.jpg", "assets/starwand.png"];
-        stampImages.forEach((imageSrc, index) => {
+        const stampPaths = ["cat.png", "rainbow.jpg", "redheart.jpg", "starwand.png"];
+        stampPaths.forEach((path, index) => {
             const button = createButton(`Stamp ${index + 1}`);
             button.position(10, 50 + index * 30);
             button.mousePressed(() => {
-                this.stampModel.selectStamp(loadImage(imageSrc));
+                const stampImage = loadImage(`assets/${path}`);
+                this.stampModel.selectStamp(stampImage);
             });
             this.stampButtons.push(button);
         });

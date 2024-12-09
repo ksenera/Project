@@ -9,11 +9,12 @@
 
 
 class CanvasView {
-    constructor(windowWidth, windowHeight, videoWidth, videoHeight) {
+    constructor(windowWidth, windowHeight, videoWidth, videoHeight, stampModel) {
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
         this.videoWidth = videoWidth;
         this.videoHeight = videoHeight;
+        this.stampModel = stampModel;
     }
     
     updateDimensions(windowWidth, windowHeight) {
@@ -30,6 +31,7 @@ class CanvasView {
         image(videoFrame, x, y, this.videoWidth, this.videoHeight);
 
         // render the canvas specifically for stamps 
+        const stampsCanvas = this.stampModel.getStampsCanvas();
         image(stampsCanvas, x, y, this.videoWidth, this.videoHeight);
 
         noFill();

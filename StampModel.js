@@ -26,9 +26,7 @@ class StampModel {
     // method for adding stamp to video 
     addStamp(position) {
         // check video bounds if loop 
-        if (!this.selectedStamp){
-            return;
-        }
+        if (!this.selectedStamp) return;
         // position is within bounds of video stream 
         const { x, y} = this.placeInVideoBounds(position);
 
@@ -38,7 +36,7 @@ class StampModel {
             position: { x, y}, 
         });
 
-        this. stampsCanvas.image(this.selectedStamp, x, y, 150, 150);
+        this.stampsCanvas.image(this.selectedStamp, x, y, 150, 150);
     }
 
     // helper function to keep position within video stream boundary 

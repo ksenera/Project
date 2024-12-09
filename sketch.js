@@ -12,10 +12,10 @@ function setup() {
 
     // Initializing the video stream and canvas view
     videoStream = new VideoStream(640, 480);
-    canvasView = new CanvasView(windowWidth, windowHeight, 640, 480);
     filterModel = new FilterModel(640, 480);
     stampModel = new StampModel(640, 480);
-    uiController = new UIController(filterModel);
+    canvasView = new CanvasView(windowWidth, windowHeight, 640, 480, stampModel);
+    uiController = new UIController(filterModel, stampModel);
     videoStream.start();
     
 }
@@ -27,7 +27,7 @@ function draw() {
 
     const filteredFrame = filterModel.applyFilter(videoFrame);
 
-    canvasView.render(filteredFrame, stampModel.getStampsCanvas());
+    canvasView.render(filteredFrame);
 }
 
 /**
