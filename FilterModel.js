@@ -11,13 +11,13 @@ class FilterModel {
         this.videoWidth = videoWidth;
         this.videoHeight = videoHeight;
         this.filterCanvas = createGraphics(videoWidth, videoHeight);
-        this.currentFilter = "none"; 
+        this.currentFilter = "none"; // when video starts streaming should be no filter by default
         this.filters = {
-            none: (frame) => frame,
-            invert: (frame) => this.applyInvert(frame),
-            gray: (frame) => this.applyGray(frame),
-            posterize: (frame) => this.applyPosterize(frame),
-            blur: (frame) => this.applyBlur(frame),
+            none: (frame) => this.applyFilterType("none", frame),
+            invert: (frame) => this.applyFilterType("invert", frame),
+            gray: (frame) => this.applyFilterType("gray", frame),
+            posterize: (frame) => this.applyFilterType("posterize", frame),
+            blur: (frame) => this.applyFilterType("blur", frame),
         };
     }
 
@@ -38,7 +38,7 @@ class FilterModel {
      * Description      : uses switch case to apply a filter on the filter canvas.
      * Parameters       : filterType - 
      *                    frame - 
-     * Return           ;
+     * Return           :
      */
 
     applyFilterType(filterType, frame) {
