@@ -11,7 +11,7 @@ class FilterModel {
         this.videoWidth = videoWidth;
         this.videoHeight = videoHeight;
         this.filterCanvas = createGraphics(videoWidth, videoHeight);
-        this.activeFilter = "none"; 
+        this.currentFilter = "none"; 
         this.filters = {
             none: (frame) => frame,
             invert: (frame) => this.applyInvert(frame),
@@ -21,6 +21,18 @@ class FilterModel {
         };
     }
 
+    setCurrentFilter(filterName) {
+        if (this.filters[filterName]) {
+          this.currentFilter = filterName;
+        } else {
+          console.warn(`Filter '${filterName}' does not exist.`);
+        }
+    }
+    
+    applyFilter(frame) {
+        return this.filters[this.currentFilter](frame);
+    }
+
     /**
      * Function         : applyFilterType() 
      * Description      : uses switch case to apply a filter on the filter canvas.
@@ -28,7 +40,7 @@ class FilterModel {
      *                    frame - 
      * Return           ;
      */
-    
+
     applyFilterType(filterType, frame) {
         this.filterCanvas.image(frame, 0, 0, this.videoWidth, this.videoHeight);
 

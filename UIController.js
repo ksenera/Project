@@ -21,7 +21,7 @@ class UIController {
         this.filterSelector.option("posterize");
         this.filterSelector.option("blur");
         this.filterSelector.changed(() => {
-          this.filterManager.setActiveFilter(this.filterSelector.value());
+          this.filterModel.setActiveFilter(this.filterSelector.value());
         });
     } 
 }
