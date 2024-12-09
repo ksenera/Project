@@ -7,12 +7,19 @@
 
 class UIController {
     constructor(filterModel) {
-      this.filterModel = filterModel;
-      this.filterSelector = createSelect();
-      this.initUI();
+        this.filterModel = filterModel;
+        this.filterSelector = createSelect();
+
+        // adding ui controls for stamp model 
+        this.stampModel = this.stampModel;
+        this.stampButtons = [];
+
+        this.initUI();
     }
 
     // temporary initializer just for the filter drop down menu.
+    // adding the stamp functionality to this initializer will focus on GUI
+    // after functionality works 
     initUI() {
         this.filterSelector.position(10, 10);
         this.filterSelector.option("none");
@@ -23,5 +30,9 @@ class UIController {
         this.filterSelector.changed(() => {
           this.filterModel.setCurrentFilter(this.filterSelector.value());
         });
+
+        // initialize stamp buttons as per the images in assets folder 
+
+        // deselect button for user to unselect a stamp previously chosen 
     } 
 }
