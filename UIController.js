@@ -12,5 +12,16 @@ class UIController {
       this.initUI();
     }
 
-    // temporary initializer just for the filter drop down menu. 
+    // temporary initializer just for the filter drop down menu.
+    initUI() {
+        this.filterSelector.position(10, 10);
+        this.filterSelector.option("none");
+        this.filterSelector.option("invert");
+        this.filterSelector.option("gray");
+        this.filterSelector.option("posterize");
+        this.filterSelector.option("blur");
+        this.filterSelector.changed(() => {
+          this.filterManager.setActiveFilter(this.filterSelector.value());
+        });
+    } 
 }
