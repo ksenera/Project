@@ -28,6 +28,7 @@ class FilterModel {
      *                    frame - 
      * Return           ;
      */
+    
     applyFilterType(filterType, frame) {
         this.filterCanvas.image(frame, 0, 0, this.videoWidth, this.videoHeight);
 
