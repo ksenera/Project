@@ -7,11 +7,11 @@
 
 class VideoStream {
     constructor(width, height) {
-      this.width = width;
-      this.height = height;
-      this.video = createCapture(VIDEO);
-      this.video.size(width, height);
-      this.video.hide();
+        this.width = width;
+        this.height = height;
+        this.video = createCapture(VIDEO);
+        this.video.size(width, height);
+        this.video.hide();
     }
 
     start() {

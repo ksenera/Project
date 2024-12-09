@@ -8,10 +8,10 @@
 
 class CanvasView {
     constructor(windowWidth, windowHeight, videoWidth, videoHeight) {
-      this.windowWidth = windowWidth;
-      this.windowHeight = windowHeight;
-      this.videoWidth = videoWidth;
-      this.videoHeight = videoHeight;
+        this.windowWidth = windowWidth;
+        this.windowHeight = windowHeight;
+        this.videoWidth = videoWidth;
+        this.videoHeight = videoHeight;
     }
     
     updateDimensions(windowWidth, windowHeight) {
