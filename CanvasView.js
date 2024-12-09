@@ -6,7 +6,7 @@
  */
 
 
-export default class CanvasView {
+class CanvasView {
     constructor(windowWidth, windowHeight, videoWidth, videoHeight) {
       this.windowWidth = windowWidth;
       this.windowHeight = windowHeight;

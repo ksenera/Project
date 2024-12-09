@@ -1,5 +1,3 @@
-import VideoStream from './controllers/VideoController.js';
-import CanvasView from './views/CanvasView.js';
 
 let videoStream;
 let canvasView;
@@ -21,4 +19,10 @@ function draw() {
   const videoFrame = videoStream.getFrame();
 
   canvasView.render(videoFrame);
+}
+
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  canvasView.updateDimensions(windowWidth, windowHeight);
 }

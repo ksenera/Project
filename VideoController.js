@@ -5,8 +5,7 @@
  * 
  */
 
-
-export default class VideoStream {
+class VideoStream {
     constructor(width, height) {
       this.width = width;
       this.height = height;
