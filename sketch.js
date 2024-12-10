@@ -7,6 +7,15 @@ let stampModel;
 
 let uiController;
 
+let catImage, rainbowImage, heartImage, wandImage;
+
+function preload() {
+  catImage = loadImage("assets/cat.png");
+  rainbowImage = loadImage("assets/rainbow.jpg");
+  heartImage = loadImage("assets/redheart.png"); 
+  wandImage = loadImage("assets/starwand.png"); 
+}
+
 function setup() {
     createCanvas(windowWidth, windowHeight);
 

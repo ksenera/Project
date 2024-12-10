@@ -8,7 +8,6 @@
 class UIController {
     constructor(filterModel, stampModel) {
         this.filterModel = filterModel;
-        this.filterSelector = createSelect();
 
         // adding ui controls for stamp model 
         this.stampModel = stampModel;
@@ -21,28 +20,59 @@ class UIController {
     // adding the stamp functionality to this initializer will focus on GUI
     // after functionality works 
     initUI() {
-        this.filterSelector.position(10, 10);
+        // container div for UI elements 
+        this.uiContainer = select('#ui-container');
+
+        // for the filter selection 
+        this.filterSelector = createSelect();
+        this.filterSelector.id('filter-selector'); // in style.css this is for filters
+        this.filterSelector.parent(this.uiContainer);
         this.filterSelector.option("none");
         this.filterSelector.option("invert");
         this.filterSelector.option("gray");
         this.filterSelector.option("posterize");
         this.filterSelector.option("blur");
+
+        // if the filter is selected handle how it changes the video stream 
         this.filterSelector.changed(() => {
           this.filterModel.setCurrentFilter(this.filterSelector.value());
         });
 
-        // initialize stamp buttons as per the images in assets folder 
-        const stampPaths = ["cat.png", "rainbow.jpg", "redheart.jpg", "starwand.png"];
-        stampPaths.forEach((path, index) => {
-            const button = createButton(`Stamp ${index + 1}`);
-            button.position(10, 50 + index * 30);
+        // initialize stamp buttons
+        this.createStampButtons();
+    }         
+    createStampButtons() {
+        const stampButtonsContainer = createDiv();
+        stampButtonsContainer.id('stamp-buttons');
+        stampButtonsContainer.parent(this.uiContainer);
+
+        const stamps = [catImage, rainbowImage, heartImage, wandImage];
+        stamps.forEach((img, index) => {
+            const button = createButton('');
+            button.class('stamp-button');
+            button.parent(stampButtonsContainer);
+
+            button.style('background-image', `url(${img.canvas.toDataURL()})`);
+
             button.mousePressed(() => {
-                const stampImage = loadImage(`assets/${path}`);
-                this.stampModel.selectStamp(stampImage);
+                this.stampModel.selectStamp(img);
+                this.updateStampButtonSelection(button);
             });
+
             this.stampButtons.push(button);
         });
+    }
 
-        // deselect button for user to unselect a stamp previously chosen 
-    } 
+    // UI will show which stamp button is selected 
+    updateStampButtonSelection(selectedButton) {
+        this.stampButtons.forEach(button => {
+            if (button === selectedButton) {
+                button.addClass('selected');
+            } else {
+                button.removeClass('selected');
+            }
+        });
+    }
+    
+    // deselect button for user to unselect a stamp previously chosen 
 }

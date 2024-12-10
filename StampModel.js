@@ -1,7 +1,7 @@
 /** 
- * CLASS       : FilerModel.js 
+ * CLASS       : StampModel.js
  * 
- * DESCRIPTION : Model class for filter logic. 
+ * DESCRIPTION : Model class for stamp placement logic 
  * 
  */
 
@@ -35,14 +35,14 @@ class StampModel {
             image: this.selectedStamp,
             position: { x, y}, 
         });
-
-        this.stampsCanvas.image(this.selectedStamp, x, y, 150, 150);
     }
 
     // helper function to keep position within video stream boundary 
     placeInVideoBounds(position) {
-        const x = Math.min(Math.max(position.x - 75, 0), this.videoWidth - 150);
-        const y = Math.min(Math.max(position.y - 75, 0), this.videoHeight - 150);
+        const halfW = 75;
+        const halfH = 75;
+        const x = constrain(position.x - halfW, 0, this.videoWidth - 150);
+        const y = constrain(position.y - halfH, 0, this.videoHeight - 150);
         return { x, y };
     }
 
