@@ -38,6 +38,30 @@ function draw() {
 }
 
 /**
+ * Function      :
+ * Description   :
+ * 
+ * Parameters    :
+ * Return        :
+ * 
+ */
+
+function beginClip(x, y, width, height) {
+    push(); 
+    beginShape();
+    vertex(x, y);
+    vertex(x + width, y);
+    vertex(x + width, y + height);
+    vertex(x, y + height);
+    endShape(CLOSE);
+    clip(); 
+}
+
+function endClip() {
+    pop();
+}
+
+/**
  * Function      : mousePressed() 
  * Description   : when the mouse is pressed within the video stream area 
  *                 and after a stamp is selected in the gui area of the window 
@@ -76,6 +100,6 @@ function getRelativeMousePosition(mx, my) {
 }
 
 function isWithinVideoArea(pos) {
-  return pos.x >= 0 && pos.y >= 0 && pos.x <= 640 && pos.y <= 480;
+    return pos.x >= 0 && pos.y >= 0 && pos.x <= 640 && pos.y <= 480;
 }
 

@@ -30,17 +30,10 @@ class StampModel {
         // check video bounds if loop 
         if (!this.selectedStamp) return;
 
+        const x = mousePosition.x - this.stampWidth / 2;
+        const y = mousePosition.y - this.stampHeight / 2;
+
         // first must calculate the centered position for the STAMP
-        const x = constrain(
-            mousePosition.x - this.stampWidth / 2,
-            0,
-            this.videoWidth - this.stampWidth
-        );
-        const y = constrain(
-            mousePosition.y - this.stampHeight / 2,
-            0,
-            this.videoHeight - this.stampHeight
-        );
         // if my mouse hovers towards the edges of video stream 
         // when placing the stamp clip the edges that go past the boundaries 
 

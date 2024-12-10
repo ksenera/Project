@@ -20,7 +20,6 @@ class CanvasView {
     updateDimensions(windowWidth, windowHeight) {
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
-        this.stampModel.updateCanvasSize(this.videoWidth, this.videoHeight);
     }
 
     render(videoFrame, mousePosition) {
@@ -42,16 +41,8 @@ class CanvasView {
         if (this.stampModel.selectedStamp && mousePosition) { 
             // make sure the center position for the stamp is based on current 
             // mouse cursor position 
-            const centeredX = constrain(
-                mousePosition.x - this.stampModel.stampWidth / 2,
-                0,
-                this.videoWidth - this.stampModel.stampWidth
-            );
-            const centeredY = constrain(
-                mousePosition.y - this.stampModel.stampHeight / 2,
-                0,
-                this.videoHeight - this.stampModel.stampHeight
-            );        
+            const centeredX = mousePosition.x - this.stampModel.stampWidth / 2;
+            const centeredY = mousePosition.y - this.stampModel.stampHeight / 2;
 
             // now render the stamp in calculated position 
             image(
