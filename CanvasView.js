@@ -30,34 +30,12 @@ class CanvasView {
         // render video frame 
         image(videoFrame, x, y, this.videoWidth, this.videoHeight);
 
-        // clear the canvas of stamps if running new instance 
-        this.stampModel.stampsCanvas.clear();
-
-        // then redraw stamps 
-        for (let s of this.stampModel.stamps) {
-            this.stampModel.stampsCanvas.image(s.image, s.x, s.y, 150, 150);
-        }
-
-        // render the canvas specifically for stamps on top of video 
-        image(this.stampModel.stampsCanvas, x, y, this.videoWidth, this.videoHeight);
+        // render the canvas specifically for stamps 
+        const stampsCanvas = this.stampModel.getStampsCanvas();
+        image(stampsCanvas, x, y, this.videoWidth, this.videoHeight);
 
         noFill();
         stroke(0);
         rect(x, y, this.videoWidth, this.videoHeight);
-
-
-        // when mouse hovers over video show currently selected stamp 
-        if (
-            this.stampModel.selectedStamp && 
-            mouseX >= x 
-            && mouseY >= y 
-            && mouseX <= x + this.videoWidth && 
-            mouseY <= y + this.videoHeight
-        ) {
-            // stamp must be centered at the mouse even if stamp gets cut off video stream border 
-            imageMode(CENTER);
-            image(this.stampModel.selectedStamp, mouseX, mouseY, 150, 150);
-            imageMode(CORNER);
-        }
     }
 }
