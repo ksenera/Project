@@ -27,7 +27,14 @@ function draw() {
 
     const filteredFrame = filterModel.applyFilter(videoFrame);
 
-    canvasView.render(filteredFrame);
+    // make sure the mouse is over the video stream area 
+    const relativeMousePos = getRelativeMousePosition(mouseX, mouseY);
+    const isMouseOverVideo = isWithinVideoArea(relativeMousePos);
+
+    // for stamping logic make sure to pass mousePos only if over video stream 
+    const mousePosition = isMouseOverVideo ? relativeMousePos : null;
+
+    canvasView.render(filteredFrame, mousePosition);
 }
 
 /**
@@ -40,15 +47,35 @@ function draw() {
  */
 
 function mousePressed() {
-    const x = mouseX - (windowWidth - 640) / 2;
-    const y = mouseY - (windowHeight - 480) / 2;
-    if (x >= 0 && y >= 0 && x <= 640 && y <= 480) {
-        stampModel.addStamp({ x, y });
+    const relativeMousePos = getRelativeMousePosition(mouseX, mouseY);
+    if (isWithinVideoArea(relativeMousePos)) {
+        stampModel.addStamp(relativeMousePos);
     }
 }
 
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
     canvasView.updateDimensions(windowWidth, windowHeight);
+}
+
+/**
+ * Function     : getRelativeMousePosition() 
+ * Description  :
+ * Parameters   : mx - 
+ *                my -
+ * Return       : {x, y}
+ */
+
+function getRelativeMousePosition(mx, my) {
+  const videoX = (windowWidth - 640) / 2;
+  const videoY = (windowHeight - 480) / 2;
+  return {
+      x: mx - videoX,
+      y: my - videoY
+  };
+}
+
+function isWithinVideoArea(pos) {
+  return pos.x >= 0 && pos.y >= 0 && pos.x <= 640 && pos.y <= 480;
 }
 

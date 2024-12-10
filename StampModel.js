@@ -32,17 +32,18 @@ class StampModel {
 
         // first must calculate the centered position for the STAMP
         const x = constrain(
-            mousePosition.x,
-            this.stampWidth / 2,
-            this.videoWidth - this.stampWidth / 2
+            mousePosition.x - this.stampWidth / 2,
+            0,
+            this.videoWidth - this.stampWidth
         );
         const y = constrain(
-            mousePosition.y,
-            this.stampHeight / 2,
-            this.videoHeight - this.stampHeight / 2
+            mousePosition.y - this.stampHeight / 2,
+            0,
+            this.videoHeight - this.stampHeight
         );
         // if my mouse hovers towards the edges of video stream 
         // when placing the stamp clip the edges that go past the boundaries 
+
         this.stamps.push({
             image: this.selectedStamp,
             position: { x, y },
@@ -51,8 +52,8 @@ class StampModel {
         // finally draw on stamps canvas specifically 
         this.stampsCanvas.image(
             this.selectedStamp,
-            x - this.stampWidth / 2,
-            y - this.stampHeight / 2,
+            x,
+            y,
             this.stampWidth,
             this.stampHeight
         );
@@ -60,6 +61,22 @@ class StampModel {
 
     // render stamps on its own canvas
     getStampsCanvas() {
-        return this.stampsCanvas
+        return this.stampsCanvas;
+    }
+
+    updateCanvasSize(videoWidth, videoHeight) {
+        this.videoWidth = videoWidth;
+        this.videoHeight = videoHeight;
+        this.stampsCanvas = createGraphics(videoWidth, videoHeight);
+        this.stampsCanvas.clear();
+        this.stamps.forEach(stamp => {
+            this.stampsCanvas.image(
+                stamp.image,
+                stamp.position.x,
+                stamp.position.y,
+                this.stampWidth,
+                this.stampHeight
+            );
+        });
     }
 }

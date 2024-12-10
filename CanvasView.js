@@ -20,9 +20,10 @@ class CanvasView {
     updateDimensions(windowWidth, windowHeight) {
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
+        this.stampModel.updateCanvasSize(this.videoWidth, this.videoHeight);
     }
 
-    render(videoFrame) {
+    render(videoFrame, mousePosition) {
         // find center position of the video stream
         const x = (this.windowWidth - this.videoWidth) / 2;
         const y = (this.windowHeight - this.videoHeight) / 2;
@@ -30,14 +31,39 @@ class CanvasView {
         // render video frame 
         image(videoFrame, x, y, this.videoWidth, this.videoHeight);
 
+        // here the clipping region will be applied for stamps
+        push();
+        beginClip(x, y, this.videoWidth, this.videoHeight);
+
         // render the stamps canvas
-        image(
-            this.stampModel.getStampsCanvas(),
-            x,
-            y,
-            this.videoWidth,
-            this.videoHeight
-        );
+        image(this.stampModel.getStampsCanvas(), x, y);
+
+        // to render the selected stamp actually following the mouse cursor 
+        if (this.stampModel.selectedStamp && mousePosition) { 
+            // make sure the center position for the stamp is based on current 
+            // mouse cursor position 
+            const centeredX = constrain(
+                mousePosition.x - this.stampModel.stampWidth / 2,
+                0,
+                this.videoWidth - this.stampModel.stampWidth
+            );
+            const centeredY = constrain(
+                mousePosition.y - this.stampModel.stampHeight / 2,
+                0,
+                this.videoHeight - this.stampModel.stampHeight
+            );        
+
+            // now render the stamp in calculated position 
+            image(
+                this.stampModel.selectedStamp,
+                x + centeredX,
+                y + centeredY,
+                this.stampModel.stampWidth,
+                this.stampModel.stampHeight
+            );
+        }
+        endClip();
+        pop();
 
         noFill();
         stroke(0);
