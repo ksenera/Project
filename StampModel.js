@@ -42,14 +42,14 @@ class StampModel {
 
     renderStamps(x, y, width, height) {
         // stamps will be clipped outside of streaming boundaries 
+        push(); // need to put it on the stack 
         clip(x, y, width, height);
 
         imageMode(CENTER);
         for (const stamp of this.stamps) {
           image(stamp.image, x + stamp.position.x, y + stamp.position.y, 150, 150);
         }
-    
-        noClip();
+        pop();
     }
 
     // render stamps on its own canvas
