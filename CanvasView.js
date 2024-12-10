@@ -30,8 +30,14 @@ class CanvasView {
         // render video frame 
         image(videoFrame, x, y, this.videoWidth, this.videoHeight);
 
-        // render the canvas specifically for stamps 
-        this.stampModel.renderStamps(x, y, this.videoWidth, this.videoHeight);
+        // render the stamps canvas
+        image(
+            this.stampModel.getStampsCanvas(),
+            x,
+            y,
+            this.videoWidth,
+            this.videoHeight
+        );
 
         noFill();
         stroke(0);
