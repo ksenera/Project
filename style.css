@@ -9,6 +9,10 @@ html, body {
   overflow: hidden;
 }
 
+#canvas-container canvas {
+  display: block; 
+}
+
 #main-container {
   display: flex;
   flex-direction: row;
@@ -25,6 +29,8 @@ html, body {
   overflow: hidden;
 }
 
+/* for the UI */
+
 #control-panel {
   flex: 0 0 300px;
   padding: 20px;
@@ -39,4 +45,51 @@ html, body {
 
 .control-section {
   margin-bottom: 25px;
+}
+
+/* For the filter selections*/
+
+#control-panel select {
+  width: 100%;
+  padding: 8px;
+  border: none;
+  border-radius: 5px;
+  background: #333;
+  color: #fff;
+  box-sizing: border-box;
+  cursor: pointer;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+#control-panel select:hover {
+  background: #444;
+}
+
+label {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.stamp-container {
+  display: flex;
+  flex-wrap: wrap; 
+  gap: 10px; 
+}
+
+.stamp-button {
+  border: 2px solid transparent; 
+  border-radius: 5px; 
+  box-sizing: border-box; 
+  transition: border 0.3s; 
+}
+
+.stamp-button.selected {
+  border: 3px solid red;
+}
+
+.stamp-button:hover {
+  border: 2px solid #555; 
 }

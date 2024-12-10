@@ -8,7 +8,10 @@ let stampModel;
 let uiController;
 
 function setup() {
-    createCanvas(windowWidth, windowHeight);
+    const canvas = createCanvas(windowWidth, windowHeight);
+
+    // with new css changes make sure the video stream renders 
+    canvas.parent('canvas-container');
 
     // Initializing the video stream and canvas view
     videoStream = new VideoStream(640, 480);
