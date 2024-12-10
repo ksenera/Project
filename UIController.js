@@ -12,7 +12,7 @@ class UIController {
 
         // adding ui controls for stamp model 
         this.stampModel = stampModel;
-        this.stampButtons = [];
+        //this.stampButtons = [];
 
         this.initUI();
     }
@@ -28,21 +28,15 @@ class UIController {
         this.filterSelector.option("posterize");
         this.filterSelector.option("blur");
         this.filterSelector.changed(() => {
-          this.filterModel.setCurrentFilter(this.filterSelector.value());
+            this.filterModel.setCurrentFilter(this.filterSelector.value());
         });
-
-        // initialize stamp buttons as per the images in assets folder 
-        const stampPaths = ["cat.png", "rainbow.jpg", "redheart.jpg", "starwand.png"];
-        stampPaths.forEach((path, index) => {
-            const button = createButton(`Stamp ${index + 1}`);
-            button.position(10, 50 + index * 30);
+        for (let i = 1; i <= 4; i++) {
+            const button = createButton(`Stamp ${i}`);
+            button.position(10, 50 + i * 30);
             button.mousePressed(() => {
-                const stampImage = loadImage(`assets/${path}`);
-                this.stampModel.selectStamp(stampImage);
+                const img = loadImage(`assets/stamp${i}.png`);
+                this.stampModel.selectStamp(img);
             });
-            this.stampButtons.push(button);
-        });
-
-        // deselect button for user to unselect a stamp previously chosen 
-    } 
+        } 
+    }
 }

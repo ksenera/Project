@@ -43,7 +43,7 @@ function mousePressed() {
     const x = mouseX - (windowWidth - 640) / 2;
     const y = mouseY - (windowHeight - 480) / 2;
     if (x >= 0 && y >= 0 && x <= 640 && y <= 480) {
-      stampModel.addStamp({ x, y });
+        stampModel.addStamp({ x, y });
     }
 }
 
