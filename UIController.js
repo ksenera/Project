@@ -30,13 +30,20 @@ class UIController {
         this.filterSelector.changed(() => {
             this.filterModel.setCurrentFilter(this.filterSelector.value());
         });
-        for (let i = 1; i <= 4; i++) {
-            const button = createButton(`Stamp ${i}`);
-            button.position(10, 50 + i * 30);
-            button.mousePressed(() => {
-                const img = loadImage(`assets/stamp${i}.png`);
-                this.stampModel.selectStamp(img);
+
+        const numberOfStamps = 4;
+        for (let i = 1; i <= numberOfStamps; i++) {
+            const imgPath = `assets/stamp${i}.png`;
+            const img = loadImage(imgPath, () => {
+                this.createStampButton(img, i);
+            }, () => {
+                console.error(`Failed to load image: ${imgPath}`);
             });
         } 
     }
+
+    /**
+     * Function: createStampButton()
+     */
+
 }
