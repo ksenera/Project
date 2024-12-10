@@ -12,6 +12,7 @@ class UIController {
 
         // adding ui controls for stamp model 
         this.stampModel = stampModel;
+        this.stampButtons = [];
         //this.stampButtons = [];
 
         this.initUI();
@@ -44,6 +45,53 @@ class UIController {
 
     /**
      * Function: createStampButton()
+     * Description: creates a stamp button with the stamp image so user knows 
+     *              which stamp they are selecting 
+     * Parameters:  img - the stamp to be display in the button 
+     *              index - the index of the stamp 
+     * Return:
      */
+
+
+    createStampButton(img, index) {
+        const button = createButton('');
+        button.position(10, 50 + (index - 1) * 60); 
+        button.size(100, 100); 
+
+        button.style('background-image', `url(${img.canvas.toDataURL()})`);
+        button.style('background-size', 'cover');
+        button.style('background-position', 'center');
+        button.style('background-repeat', 'no-repeat');
+        button.style('border', '2px solid transparent'); 
+        button.style('cursor', 'pointer'); 
+
+        button.mousePressed(() => {
+            this.selectStamp(index - 1); 
+        });
+
+        this.stampButtons.push(button);
+    }
+
+    /**
+     * Function: selectStamp() 
+     * Description: 
+     * Parameters:
+     * Return: 
+     */
+
+    selectStamp(selectedIndex) {
+        this.stampButtons.forEach((button, index) => {
+            if (index === selectedIndex) {
+                button.style('border', '2px solid red');
+
+                const selectedImage = button.elt.style.backgroundImage.slice(5, -2); 
+                loadImage(selectedImage, (img) => {
+                    this.stampModel.selectStamp(img);
+                });
+            } else {
+                button.style('border', '2px solid transparent');
+            }
+        });
+    }
 
 }

@@ -1,8 +1,42 @@
 html, body {
   margin: 0;
   padding: 0;
+  height: 100vh;
+  width: 100vw;
+  color: #e0e0e0;
+  background-color: #121212;
+  font-family: monospace;
+  overflow: hidden;
 }
 
-canvas {
-  display: block;
+#main-container {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+}
+
+#canvas-container {
+  flex-grow: 1;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#control-panel {
+  flex: 0 0 300px;
+  padding: 20px;
+  padding-left: 20px;
+  width: 300px;
+  color: #ffffff;
+  background-color: #1e1e1e;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.control-section {
+  margin-bottom: 25px;
 }
