@@ -128,3 +128,12 @@ function isWithinVideoArea(pos) {
     return pos.x >= 0 && pos.y >= 0 && pos.x <= 640 && pos.y <= 480;
 }
 
+function keyPressed() {
+    if (key === ' ') { 
+        captureImage();
+    }
+}
+
+function captureImage() {
+    
+}
