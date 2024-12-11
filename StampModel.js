@@ -16,7 +16,7 @@ class StampModel {
         this.stampsCanvas = createGraphics(videoWidth, videoHeight); // new canvas for stamps 
     }
 
-    // method for selecting and deselecting stamps 
+    // methods for selecting and deselecting stamps 
     selectStamp(image) {
         this.selectedStamp = image;
     }
@@ -25,15 +25,23 @@ class StampModel {
         this.selectedStamp = null;
     }
 
-    // method for adding stamp to video 
+    /**
+     * Function      :
+     * Description   :
+     * 
+     * Parameters    :
+     * Return        :
+     * 
+     */
     addStamp(mousePosition) {
         // check video bounds if loop 
         if (!this.selectedStamp) return;
 
-        const x = mousePosition.x - this.stampWidth / 2;
-        const y = mousePosition.y - this.stampHeight / 2;
 
         // first must calculate the centered position for the STAMP
+        const x = mousePosition.x - this.stampWidth / 2;
+        const y = mousePosition.y - this.stampHeight / 2;
+        
         // if my mouse hovers towards the edges of video stream 
         // when placing the stamp clip the edges that go past the boundaries 
 
