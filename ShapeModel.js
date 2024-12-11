@@ -15,6 +15,7 @@ class ShapeModel {
         this.fillColor = '#FFFFFF';
         this.borderColor = '#000000';
         this.borderThickness = 1;
+        this.shapesCanvas = createGraphics(videoWidth, videoHeight);
     }
 
     setCurrentTool(tool) {
@@ -33,16 +34,16 @@ class ShapeModel {
         this.borderThickness = thickness;
     }
 
-    startShape(type, startX, startY, fillColor, strokeColor, strokeWeight) {
+    startShape(type, startX, startY) {
         this.currentShape = {
             type,
             startX,
             startY,
             endX: startX,
             endY: startY,
-            fillColor,
-            strokeColor,
-            strokeWeight,
+            fillColor: this.fillColor,
+            strokeColor: this.borderColor,
+            strokeWeight: this.borderThickness,
         };
     }
 
@@ -56,37 +57,8 @@ class ShapeModel {
     finalizeShape() {
         if (this.currentShape) {
             this.shapes.push(this.currentShape);
+            // add call to utility class rendering shapes 
             this.currentShape = null;
-        }
-    }
-
-    renderShapes() {
-        for (const shape of this.shapes) {
-            noFill();
-            if (shape.fillColor) fill(shape.fillColor);
-            stroke(shape.strokeColor);
-            strokeWeight(shape.strokeWeight);
-
-            if (shape.type === 'rectangle') {
-                rect(shape.startX, shape.startY, shape.endX, shape.endY);
-            } else if (shape.type === 'ellipse') {
-                ellipse(shape.startX, shape.startY, shape.endX, shape.endY);
-            }
-        }
-    }
-
-    renderCurrentShape() {
-        if (!this.currentShape) return;
-
-        noFill();
-        if (this.currentShape.fillColor) fill(this.currentShape.fillColor);
-        stroke(this.currentShape.strokeColor);
-        strokeWeight(this.currentShape.strokeWeight);
-
-        if (this.currentShape.type === 'rectangle') {
-            rect(this.currentShape.startX, this.currentShape.startY, mouseX, mouseY);
-        } else if (this.currentShape.type === 'ellipse') {
-            ellipse(this.currentShape.startX, this.currentShape.startY, mouseX, mouseY);
         }
     }
 }
