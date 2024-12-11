@@ -6,7 +6,7 @@
  */
 
 class UIController {
-    constructor(filterModel, stampModel) {
+    constructor(filterModel, stampModel, shapeModel) {
         this.filterModel = filterModel;
         // this.filterSelector = createSelect();
 
@@ -14,6 +14,8 @@ class UIController {
         this.stampModel = stampModel;
         this.stampButtons = [];
         //this.stampButtons = [];
+
+        this.shapeModel = shapeModel;
 
         this.initUI();
     }
@@ -40,6 +42,67 @@ class UIController {
         this.filterSelector.changed(() => {
             this.filterModel.setCurrentFilter(this.filterSelector.value());
         });
+
+        const toolSection = createDiv().addClass('control-section');
+        toolSection.parent(controlPanel);
+
+        const toolLabel = createElement('label', 'Tool Selection:');
+        toolLabel.parent(toolSection);
+
+        // introducing all tools selectors here
+        this.toolSelector = createSelect();
+        this.toolSelector.parent(toolSection);
+        this.toolSelector.option("stamp");
+        this.toolSelector.option("rectangle");
+        this.toolSelector.option("ellipse");
+        this.toolSelector.changed(() => {
+            this.selectTool(this.toolSelector.value());
+        });
+
+        // for the shapes drawing tools here is color for borders and fills
+        const colorSection = createDiv().addClass('control-section');
+        colorSection.parent(controlPanel);  
+
+        const borderColorLabel = createElement('label', 'Border Color:');
+        borderColorLabel.parent(colorSection);
+
+        this.borderColorPicker = createColorPicker('#000000');
+        this.borderColorPicker.parent(colorSection);
+        this.borderColorPicker.input(() => {
+            this.shapeModel.setBorderColor(this.borderColorPicker.value());
+        });
+
+        const fillColorLabel = createElement('label', 'Fill Color:');
+        fillColorLabel.parent(colorSection);
+
+        this.fillColorPicker = createColorPicker('#FF0000');
+        this.fillColorPicker.parent(colorSection);
+        this.fillColorPicker.input(() => {
+            this.shapeModel.setFillColor(this.fillColorPicker.value());
+        });
+
+        // for the border user can select 4 borders including NONE
+        const thicknessSection = createDiv().addClass('control-section');
+        thicknessSection.parent(controlPanel);
+
+        const thicknessLabel = createElement('label', 'Border Thickness:');
+        thicknessLabel.parent(thicknessSection);
+
+        this.thicknessSelector = createSelect();
+        this.thicknessSelector.parent(thicknessSection);
+        this.thicknessSelector.option("None");
+        this.thicknessSelector.option("1");
+        this.thicknessSelector.option("2");
+        this.thicknessSelector.option("3");
+        this.thicknessSelector.option("4");
+        this.thicknessSelector.option("5");
+        this.thicknessSelector.selected("1");
+        this.thicknessSelector.changed(() => {
+            const value = this.thicknessSelector.value();
+            this.shapeModel.setBorderThickness(value === "None" ? 0 : parseInt(value));
+        });
+
+        // existing stamp selection logic 
 
         const stampSection = createDiv().addClass('control-section');
         stampSection.parent(controlPanel);
@@ -77,12 +140,15 @@ class UIController {
         button.parent(container);
         button.class('stamp-button');
 
-        button.style('background-image', `url(${img.canvas.toDataURL()})`);
+        let tempCanvas = createGraphics(50, 50);
+        tempCanvas.image(img, 0, 0, 50, 50);
+        const dataURL = tempCanvas.elt.toDataURL();
+        button.style('background-image', `url(${dataURL})`);
         button.style('background-size', 'cover');
         button.style('background-position', 'center');
         button.style('background-repeat', 'no-repeat');
 
-        button.size(150, 150);
+        button.size(50, 50);
 
         button.mousePressed(() => {
             this.selectStamp(index); 
@@ -103,13 +169,33 @@ class UIController {
             if (index === selectedIndex) {
                 button.addClass('selected');
 
-                const imgURL = button.style('background-image').replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
-                loadImage(imgURL, (img) => {
+                const imgPath = `assets/stamp${selectedIndex + 1}.png`;
+                loadImage(imgPath, (img) => {
                     this.stampModel.selectStamp(img);
                 });
             } else {
                 button.removeClass('selected');
             }
         });
+
+        this.toolSelector.value('stamp');
+        this.shapeModel.setCurrentTool('stamp');
+    }
+
+   /**
+     * Function: selectTool() 
+     * Description: 
+     * Parameters:
+     * Return: 
+     */
+    selectTool(tool) {
+        if (tool === 'stamp') {
+            this.stampContainer.show();
+        } else {
+            this.stampContainer.hide();
+            this.stampButtons.forEach(button => button.removeClass('selected'));
+            this.stampModel.deselectStamp();
+            this.shapeModel.setCurrentTool(tool);
+        }
     }
 }
