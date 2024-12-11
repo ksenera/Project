@@ -54,13 +54,18 @@ class CanvasView {
                 this.stampModel.stampHeight
             );
         }
+
+
         endClip();
         pop();
 
+
         push();
         beginClip(x, y, this.videoWidth, this.videoHeight);
-        this.shapeModel.renderShapes();
-        this.shapeModel.renderCurrentShape();
+
+        image(this.shapeModel.getShapesCanvas(), x, y);
+        this.shapeModel.renderCurrentShape(mousePosition);
+
         endClip();
         pop();
 

@@ -79,16 +79,9 @@ function endClip() {
 function mousePressed() {
     const pos = getRelativeMousePosition(mouseX, mouseY);
     if (isWithinVideoArea(pos)) {
-        if (uiController.selectedTool === 'rectangle' || uiController.selectedTool === 'ellipse') {
-            shapeModel.startShape(
-                uiController.selectedTool,
-                pos.x,
-                pos.y,
-                '#ffffff', 
-                '#000000', 
-                1          
-            );
-        } else {
+        if (uiController.currentTool === 'rectangle' || uiController.currentTool === 'ellipse') {
+            shapeModel.startShape(uiController.currentTool, pos.x, pos.y);
+        } else if (uiController.currentTool === 'stamp') {
             stampModel.addStamp(pos);
         }
     }
@@ -96,13 +89,13 @@ function mousePressed() {
 
 function mouseDragged() {
     const pos = getRelativeMousePosition(mouseX, mouseY);
-    if (uiController.selectedTool) {
+    if (uiController.currentTool) {
         shapeModel.updateShape(pos.x, pos.y);
     }
 }
 
 function mouseReleased() {
-    if (uiController.selectedTool) {
+    if (uiController.currentTool && (uiController.currentTool === 'rectangle' || uiController.currentTool === 'ellipse')) {
         shapeModel.finalizeShape();
     }
 }
@@ -110,6 +103,8 @@ function mouseReleased() {
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
     canvasView.updateDimensions(windowWidth, windowHeight);
+    shapeModel.updateCanvasSize(640, 480);
+    stampModel.updateCanvasSize(640, 480);
 }
 
 /**

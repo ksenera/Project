@@ -30,8 +30,7 @@ class UIController {
         const filterSection = createDiv().addClass('control-section');
         filterSection.parent(controlPanel);
 
-        const filterLabel = createElement('label', 'Filter Selection:');
-        filterLabel.parent(filterSection);
+        createElement('label', 'Filter Selection:').parent(filterSection);
 
         this.filterSelector = createSelect();
         this.filterSelector.parent(filterSection);
@@ -47,16 +46,13 @@ class UIController {
         const toolSection = createDiv().addClass('control-section');
         toolSection.parent(controlPanel);
 
-        const toolLabel = createElement('label', 'Tool Selection:');
-        toolLabel.parent(toolSection);
+        createElement('label', 'Tool Selection:').parent(toolSection);
 
         // introducing all tools selectors here
-        const rectangleButton = createButton('Rectangle');
-        rectangleButton.parent(toolSection);
+        const rectangleButton = createButton('Rectangle').parent(toolSection);
         rectangleButton.mousePressed(() => this.selectTool('rectangle'));
 
-        const ellipseButton = createButton('Ellipse');
-        ellipseButton.parent(toolSection);
+        const ellipseButton = createButton('Ellipse').parent(toolSection);
         ellipseButton.mousePressed(() => this.selectTool('ellipse'));
 
         // for the shapes drawing tools here is color for borders and fills
@@ -66,17 +62,14 @@ class UIController {
         const borderColorLabel = createElement('label', 'Border Color:');
         borderColorLabel.parent(colorSection);
 
-        this.borderColorPicker = createColorPicker('#000000');
-        this.borderColorPicker.parent(colorSection);
+        createElement('label', 'Border Color:').parent(colorSection);
+        this.borderColorPicker = createColorPicker('#000000').parent(colorSection);
         this.borderColorPicker.input(() => {
             this.shapeModel.setBorderColor(this.borderColorPicker.value());
         });
 
-        const fillColorLabel = createElement('label', 'Fill Color:');
-        fillColorLabel.parent(colorSection);
-
-        this.fillColorPicker = createColorPicker('#FF0000');
-        this.fillColorPicker.parent(colorSection);
+        createElement('label', 'Fill Color:').parent(colorSection);
+        this.fillColorPicker = createColorPicker('#FFFFFF').parent(colorSection);
         this.fillColorPicker.input(() => {
             this.shapeModel.setFillColor(this.fillColorPicker.value());
         });
@@ -85,8 +78,7 @@ class UIController {
         const thicknessSection = createDiv().addClass('control-section');
         thicknessSection.parent(controlPanel);
 
-        const thicknessLabel = createElement('label', 'Border Thickness:');
-        thicknessLabel.parent(thicknessSection);
+        createElement('label', 'Border Thickness:').parent(thicknessSection);
 
         this.thicknessSelector = createSelect();
         this.thicknessSelector.parent(thicknessSection);
@@ -107,19 +99,14 @@ class UIController {
         const stampSection = createDiv().addClass('control-section');
         stampSection.parent(controlPanel);
 
-        const stampLabel = createElement('label', 'Stamp Selection:');
-        stampLabel.parent(stampSection);
-
-        this.stampContainer = createDiv().addClass('stamp-container');
-        this.stampContainer.parent(stampSection);
+        createElement('label', 'Stamp Selection:').parent(stampSection);
+        this.stampContainer = createDiv().addClass('stamp-container').parent(stampSection);
 
         const numberOfStamps = 4;
         for (let i = 1; i <= numberOfStamps; i++) {
             const imgPath = `assets/stamp${i}.png`;
             loadImage(imgPath, (img) => {
                 this.createStampButton(img, i - 1, this.stampContainer);
-            }, () => {
-                console.error(`Failed to load image: ${imgPath}`);
             });
         } 
     }
@@ -135,12 +122,8 @@ class UIController {
      */
 
     createStampButton(img, index, container) {
-
-        const button = createButton('');
-        button.parent(container);
-        button.class('stamp-button');
-
-        let tempCanvas = createGraphics(50, 50);
+        const button = createButton('').parent(container).class('stamp-button');
+        const tempCanvas = createGraphics(50, 50);
         tempCanvas.image(img, 0, 0, 50, 50);
         const dataURL = tempCanvas.elt.toDataURL();
         button.style('background-image', `url(${dataURL})`);

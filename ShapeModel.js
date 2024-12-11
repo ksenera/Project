@@ -34,6 +34,13 @@ class ShapeModel {
         this.borderThickness = thickness;
     }
 
+    /**
+     * Function: 
+     * Description: 
+     * Parameters:  
+     * Return:
+     */
+
     startShape(type, startX, startY) {
         this.currentShape = {
             type,
@@ -47,6 +54,12 @@ class ShapeModel {
         };
     }
 
+    /**
+     * Function: 
+     * Description: 
+     * Parameters:  
+     * Return:
+     */
     updateShape(endX, endY) {
         if (this.currentShape) {
             this.currentShape.endX = endX;
@@ -54,11 +67,51 @@ class ShapeModel {
         }
     }
 
+    /**
+     * Function: 
+     * Description: 
+     * Parameters:  
+     * Return:
+     */
     finalizeShape() {
         if (this.currentShape) {
             this.shapes.push(this.currentShape);
             // add call to utility class rendering shapes 
+            RenderShape.renderShape(this.shapesCanvas, this.currentShape);
             this.currentShape = null;
         }
     }
+
+    /**
+     * Function: renderCurrShape() 
+     * Description: 
+     * Parameters:  
+     * Return:
+     */
+
+    renderCurrentShape(mousePosition) {
+        if (!this.currentShape || !mousePosition) return;
+
+        RenderShape.renderShape(null, {
+            ...this.currentShape,
+            endX: mousePosition.x,
+            endY: mousePosition.y,
+        });
+    }
+
+    getShapesCanvas() {
+        return this.shapesCanvas;
+    }
+
+    updateCanvasSize(videoWidth, videoHeight) {
+        this.videoWidth = videoWidth;
+        this.videoHeight = videoHeight;
+        this.shapesCanvas = createGraphics(videoWidth, videoHeight);
+        this.shapesCanvas.clear();
+
+
+        this.shapes.forEach(shape => {
+            RenderShape.renderShape(this.shapesCanvas, shape);
+        });
+    } 
 }
