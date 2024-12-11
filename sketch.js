@@ -5,6 +5,8 @@ let canvasView;
 let filterModel;
 let stampModel;
 
+let shapeModel;
+
 let uiController;
 
 function setup() {
@@ -17,8 +19,9 @@ function setup() {
     videoStream = new VideoStream(640, 480);
     filterModel = new FilterModel(640, 480);
     stampModel = new StampModel(640, 480);
-    canvasView = new CanvasView(windowWidth, windowHeight, 640, 480, stampModel);
-    uiController = new UIController(filterModel, stampModel);
+    shapeModel = new ShapeModel(640, 480);
+    canvasView = new CanvasView(windowWidth, windowHeight, 640, 480, stampModel, shapeModel);
+    uiController = new UIController(filterModel, stampModel, shapeModel);
     videoStream.start();
     
 }
@@ -74,9 +77,33 @@ function endClip() {
  */
 
 function mousePressed() {
-    const relativeMousePos = getRelativeMousePosition(mouseX, mouseY);
-    if (isWithinVideoArea(relativeMousePos)) {
-        stampModel.addStamp(relativeMousePos);
+    const pos = getRelativeMousePosition(mouseX, mouseY);
+    if (isWithinVideoArea(pos)) {
+        if (uiController.selectedTool === 'rectangle' || uiController.selectedTool === 'ellipse') {
+            shapeModel.startShape(
+                uiController.selectedTool,
+                pos.x,
+                pos.y,
+                '#ffffff', 
+                '#000000', 
+                1          
+            );
+        } else {
+            stampModel.addStamp(pos);
+        }
+    }
+}
+
+function mouseDragged() {
+    const pos = getRelativeMousePosition(mouseX, mouseY);
+    if (uiController.selectedTool) {
+        shapeModel.updateShape(pos.x, pos.y);
+    }
+}
+
+function mouseReleased() {
+    if (uiController.selectedTool) {
+        shapeModel.finalizeShape();
     }
 }
 

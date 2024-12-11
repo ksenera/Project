@@ -16,6 +16,7 @@ class UIController {
         //this.stampButtons = [];
 
         this.shapeModel = shapeModel;
+        this.currentTool = 'stamp';
 
         this.initUI();
     }
@@ -50,14 +51,13 @@ class UIController {
         toolLabel.parent(toolSection);
 
         // introducing all tools selectors here
-        this.toolSelector = createSelect();
-        this.toolSelector.parent(toolSection);
-        this.toolSelector.option("stamp");
-        this.toolSelector.option("rectangle");
-        this.toolSelector.option("ellipse");
-        this.toolSelector.changed(() => {
-            this.selectTool(this.toolSelector.value());
-        });
+        const rectangleButton = createButton('Rectangle');
+        rectangleButton.parent(toolSection);
+        rectangleButton.mousePressed(() => this.selectTool('rectangle'));
+
+        const ellipseButton = createButton('Ellipse');
+        ellipseButton.parent(toolSection);
+        ellipseButton.mousePressed(() => this.selectTool('ellipse'));
 
         // for the shapes drawing tools here is color for borders and fills
         const colorSection = createDiv().addClass('control-section');
@@ -110,14 +110,14 @@ class UIController {
         const stampLabel = createElement('label', 'Stamp Selection:');
         stampLabel.parent(stampSection);
 
-        const stampContainer = createDiv().addClass('stamp-container');
-        stampContainer.parent(stampSection);
+        this.stampContainer = createDiv().addClass('stamp-container');
+        this.stampContainer.parent(stampSection);
 
         const numberOfStamps = 4;
         for (let i = 1; i <= numberOfStamps; i++) {
             const imgPath = `assets/stamp${i}.png`;
             loadImage(imgPath, (img) => {
-                this.createStampButton(img, i - 1, stampContainer);
+                this.createStampButton(img, i - 1, this.stampContainer);
             }, () => {
                 console.error(`Failed to load image: ${imgPath}`);
             });
@@ -178,8 +178,8 @@ class UIController {
             }
         });
 
-        this.toolSelector.value('stamp');
-        this.shapeModel.setCurrentTool('stamp');
+        this.deselectOtherTools();
+        this.currentTool = 'stamp';
     }
 
    /**
@@ -189,13 +189,23 @@ class UIController {
      * Return: 
      */
     selectTool(tool) {
-        if (tool === 'stamp') {
-            this.stampContainer.show();
-        } else {
-            this.stampContainer.hide();
-            this.stampButtons.forEach(button => button.removeClass('selected'));
-            this.stampModel.deselectStamp();
+        console.log(`Tool selected: ${tool}`); 
+        this.deselectStamps();
+        this.currentTool = tool;
+        if (this.shapeModel) {
             this.shapeModel.setCurrentTool(tool);
+        } else {
+            console.error("ShapeModel is undefined in UIController.");
         }
     }
+
+    deselectStamps() {
+        this.stampButtons.forEach((button) => button.removeClass('selected'));
+        this.stampModel.deselectStamp();
+    }
+
+    deselectOtherTools() {
+        this.shapeModel.setCurrentTool(null);
+    }
+
 }

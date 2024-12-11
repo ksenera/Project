@@ -9,12 +9,13 @@
 
 
 class CanvasView {
-    constructor(windowWidth, windowHeight, videoWidth, videoHeight, stampModel) {
+    constructor(windowWidth, windowHeight, videoWidth, videoHeight, stampModel, shapeModel) {
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
         this.videoWidth = videoWidth;
         this.videoHeight = videoHeight;
         this.stampModel = stampModel;
+        this.shapeModel = shapeModel;
     }
     
     updateDimensions(windowWidth, windowHeight) {
@@ -53,6 +54,13 @@ class CanvasView {
                 this.stampModel.stampHeight
             );
         }
+        endClip();
+        pop();
+
+        push();
+        beginClip(x, y, this.videoWidth, this.videoHeight);
+        this.shapeModel.renderShapes();
+        this.shapeModel.renderCurrentShape();
         endClip();
         pop();
 
