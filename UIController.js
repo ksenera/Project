@@ -109,6 +109,13 @@ class UIController {
                 this.createStampButton(img, i - 1, this.stampContainer);
             });
         } 
+
+        // reset button 
+        const resetSection = createDiv().addClass('control-section');
+        resetSection.parent(controlPanel);
+
+        const resetButton = createButton('Reset').parent(resetSection);
+        resetButton.mousePressed(() => this.resetCanvas()); 
     }
 
     /**
@@ -191,4 +198,22 @@ class UIController {
         this.shapeModel.setCurrentTool(null);
     }
 
+    /**
+     * Function: resetCanvas() 
+     * Description: 
+     * Parameters:
+     * Return: 
+     */
+
+    resetCanvas() {
+        this.filterSelector.value('none');
+        this.filterModel.setCurrentFilter('none');
+
+        this.deselectStamps();
+        this.stampModel.clearStamps();
+
+        this.shapeModel.clearShapes();
+
+        console.log('Canvas has been reset.');
+    }
 }
