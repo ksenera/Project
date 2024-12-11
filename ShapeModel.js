@@ -114,4 +114,9 @@ class ShapeModel {
             RenderShape.renderShape(this.shapesCanvas, shape);
         });
     } 
+
+    clearShapes() {
+        this.shapes = [];
+        this.shapesCanvas.clear();
+    }
 }

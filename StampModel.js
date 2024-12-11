@@ -80,4 +80,9 @@ class StampModel {
             );
         });
     }
+
+    clearStamps() {
+        this.stamps = [];
+        this.stampsCanvas.clear();
+    }
 }
