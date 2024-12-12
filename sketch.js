@@ -3,7 +3,9 @@
  * PROJECT       : SENG3040 - Project
  * PROGRAMMER    : Kushika Senera 
  * FIRST VERSION : 11/12/2024
- * DESCRIPTION   : The purpose of this sketch.js file is to 
+ * DESCRIPTION   : The purpose of this sketch.js file is to set up the canvas and
+ *                 render the video stream, stamps, and shapes, while also handling 
+ *                 mouse events and UI interactions.
  */
 
 
@@ -12,7 +14,6 @@ let canvasView;
 
 let filterModel;
 let stampModel;
-
 let shapeModel;
 
 let uiController;
@@ -21,7 +22,7 @@ let drawingCanvas;
 
 /**
  * FUNCTION      : setup
- * DESCRIPTION   : Sets up the canvas and initializes the SolarSystemController.
+ * DESCRIPTION   : Sets up the canvas and initializes the MVC components.
  * PARAMETERS    : None.
  * RETURNS       : None.
  */
@@ -44,7 +45,6 @@ function setup() {
     videoStream.start();
     
 }
-
 
 /** 
  * FUNCTION      : draw()
@@ -71,11 +71,16 @@ function draw() {
 }
 
 /** 
- * FUNCTION      : draw()
- * DESCRIPTION   : Main loop of the sketch program. Has function calls for other param
- *                 draw functions. 
- * PARAMETERS    : None. 
- * RETURNS       : Runs the sketch on Port 5500.
+ * FUNCTION      : beginClip()
+ * DESCRIPTION   : p5.js function to clip the canvas to a specific area 
+ *                 for stamps and shapes. This ensure stamps do not exceed video stream
+ *                 boundaries.        
+ * PARAMETERS    : 
+ *                  x - x-coord of top left corner of clipping rectangle.
+ *                  y - y-coord of top left corner of clipping rectangle.
+ *                  width - width of clipping rectangle.
+ *                  height - height of clipping rectangle.
+ * RETURNS       : None.
  */
 function beginClip(x, y, width, height) {
     push(); 
@@ -88,15 +93,20 @@ function beginClip(x, y, width, height) {
     clip(); 
 }
 
+/** 
+ * FUNCTION      : endClip()
+ * DESCRIPTION   : p5.js function to end the clipping region 
+ * PARAMETERS    : None. 
+ * RETURNS       : None.
+ */
 function endClip() {
     pop();
 }
 
 /**
  * FUNCTION      : mousePressed() 
- * DESCRIPTION   : when the mouse is pressed within the video stream area 
- *                 and after a stamp is selected in the gui area of the window 
- *                 a stamp can be placed to the video stream 
+ * DESCRIPTION   : When the mouse is pressed within the video stream area after a tool
+ *                 is selected, a stamp is added or the first corner of a shape is drawn. 
  * PARAMETERS    : None. 
  * RETURNS       : None. 
  */
@@ -111,6 +121,12 @@ function mousePressed() {
     }
 }
 
+/**
+ * FUNCTION      : mouseDragged() 
+ * DESCRIPTION   : Handles mouse drag events. The current shape is updated with the new mouse position.
+ * PARAMETERS    : None. 
+ * RETURNS       : None. 
+ */
 function mouseDragged() {
     const pos = getRelativeMousePosition(mouseX, mouseY);
     if (isWithinVideoArea(pos) && 
@@ -119,6 +135,12 @@ function mouseDragged() {
     }
 }
 
+/**
+ * FUNCTION      : mouseReleased
+ * DESCRIPTION   : When mouse is released, the shape is finalized.
+ * PARAMETERS    : None.
+ * RETURNS       : None.
+ */
 function mouseReleased() {
     if (uiController.currentTool && 
         (uiController.currentTool === 'rectangle' || uiController.currentTool === 'ellipse')) {
@@ -126,6 +148,12 @@ function mouseReleased() {
     }
 }
 
+/**
+ * FUNCTION      : windowResized
+ * DESCRIPTION   : Adjusts the canvas size and MVC components when the browser window is resized.
+ * PARAMETERS    : None.
+ * RETURNS       : None.
+ */
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
     canvasView.updateDimensions(windowWidth, windowHeight);
@@ -134,11 +162,11 @@ function windowResized() {
 }
 
 /** 
- * FUNCTION      : draw()
- * DESCRIPTION   : Main loop of the sketch program. Has function calls for other param
- *                 draw functions. 
- * PARAMETERS    : None. 
- * RETURNS       : Runs the sketch on Port 5500.
+ * FUNCTION      : getRelativeMousePosition()
+ * DESCRIPTION   : Calculates the relative mouse position within the video stream area.
+ * PARAMETERS    : mx - The x-coordinate of the mouse.
+ *                 my - The y-coordinate of the mouse.
+ * RETURNS       : Object that contains relative mouse position.
  */
 function getRelativeMousePosition(mx, my) {
   const videoX = (windowWidth - 640) / 2;
@@ -149,10 +177,22 @@ function getRelativeMousePosition(mx, my) {
   };
 }
 
+/**
+ * FUNCTION      : isWithinVideoArea()
+ * DESCRIPTION   : Checks if mouse cursor is over the video stream area.
+ * PARAMETERS    : pos - The mouse position.
+ * RETURNS       : Boolean if mouse cursor is within video stream area.
+ */
 function isWithinVideoArea(pos) {
     return pos.x >= 0 && pos.y >= 0 && pos.x <= 640 && pos.y <= 480;
 }
 
+/**
+ * FUNCTION      : keyPressed()
+ * DESCRIPTION   : By pressing the spacebar the current frame is captured in captureImage()
+ * PARAMETERS    : None.
+ * RETURNS       : None.
+ */
 function keyPressed() {
     if (key === ' ') { 
         captureImage();
@@ -161,9 +201,10 @@ function keyPressed() {
 
 /** 
  * FUNCTION      : captureImage()
- * DESCRIPTION   : 
+ * DESCRIPTION   : Captures the current video frame but also draws the filters, stamps, and shapes
+ *                 if the user selected and used those tools. 
  * PARAMETERS    : None. 
- * RETURNS       : 
+ * RETURNS       : None.
  */
 function captureImage() {
     const captureCanvas = createGraphics(640, 480);

@@ -13,7 +13,6 @@ class StampModel {
         this.stampHeight = stampHeight;
         this.selectedStamp = null; // 
         this.stamps = []; // array for the stamped stamps on video feed
-        //this.stampsCanvas = createGraphics(videoWidth, videoHeight); // new canvas for stamps
         this.drawingCanvas = sharedCanvas;
     }
 
@@ -59,11 +58,6 @@ class StampModel {
             this.stampWidth,
             this.stampHeight
         );
-    }
-
-    // render stamps on its own canvas
-    getStampsCanvas() {
-        return this.stampsCanvas;
     }
 
     updateCanvasSize(videoWidth, videoHeight) {

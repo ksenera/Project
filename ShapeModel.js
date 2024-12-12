@@ -99,9 +99,6 @@ class ShapeModel {
         });
     }
 
-    getShapesCanvas() {
-        return this.shapesCanvas;
-    }
 
     updateCanvasSize(videoWidth, videoHeight) {
         this.videoWidth = videoWidth;
