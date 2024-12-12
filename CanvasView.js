@@ -33,7 +33,7 @@ class CanvasView {
 
     /**
      * FUNCTION      : render()
-     * DESCRIPTION   : Renders the video stream and the shared drawing canvas.
+     * DESCRIPTION   : Renders the video frames and the instance of the shared drawing canvas.
      * PARAMETERS    :  videoFrame - the current frame from the video stream
      *                  mousePosition - the current position of the mouse
      * RETURNS       : None.

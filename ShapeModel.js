@@ -1,7 +1,8 @@
 /** 
  * CLASS       : ShapeModel.js 
  * 
- * DESCRIPTION : 
+ * DESCRIPTION : Model class that manages shape drawing logic for rectangles and ellipses.
+ *               Methods create, update, and render the finalized shapes. 
  * 
  */
 
@@ -15,10 +16,14 @@ class ShapeModel {
         this.fillColor = '#FFFFFF';
         this.borderColor = '#000000';
         this.borderThickness = 1;
-        //this.shapesCanvas = createGraphics(videoWidth, videoHeight);
         this.drawingCanvas = sharedCanvas;
     }
 
+    /**
+     * 
+     * SET METHODS to set the current tool, fill color, and border color and thickness.
+     * 
+     */
     setCurrentTool(tool) {
         this.currentTool = tool;
     }
@@ -36,12 +41,14 @@ class ShapeModel {
     }
 
     /**
-     * Function: 
-     * Description: 
-     * Parameters:  
-     * Return:
+     * FUNCTION      : startShape()
+     * DESCRIPTION   : Draws a new shape by setting parameters. 
+     * PARAMETERS    : 
+     *                  type - either rectangle or ellipse.
+     *                  startX - the x-coordinate where the mouse clicks first corner of the shape. 
+     *                  startY - The y-coordinate where the mouse clicks first corner of the shape.
+     * RETURNS       : None.
      */
-
     startShape(type, startX, startY) {
         this.currentShape = {
             type,
@@ -56,10 +63,12 @@ class ShapeModel {
     }
 
     /**
-     * Function: 
-     * Description: 
-     * Parameters:  
-     * Return:
+     * FUNCTION      : updateShape()
+     * DESCRIPTION   : As the user drags the mouse, the shape is updated with end corner coordinates.
+     * PARAMETERS    : 
+     *                  endX - The updated x-coordinate of the corner after mouse drag.
+     *                  endY - The updated y-coordinate of the corner after mouse drag.
+     * RETURNS       : None.
      */
     updateShape(endX, endY) {
         if (this.currentShape) {
@@ -69,10 +78,10 @@ class ShapeModel {
     }
 
     /**
-     * Function: 
-     * Description: 
-     * Parameters:  
-     * Return:
+     * FUNCTION      : finalizeShape()
+     * DESCRIPTION   : Finalizes current shape by adding to shapes array. 
+     * PARAMETERS    : None.
+     * RETURNS       : None.
      */
     finalizeShape() {
         if (this.currentShape) {
@@ -83,12 +92,12 @@ class ShapeModel {
     }
 
     /**
-     * Function: renderCurrShape() 
-     * Description: 
-     * Parameters:  
-     * Return:
+     * FUNCTION      : renderCurrentShape()
+     * DESCRIPTION   : Shows user visual feedback of the current shape being drawn.
+     * PARAMETERS    : 
+     *                  mousePosition - the current position of the mouse during visual feedback.
+     * RETURNS       : None.
      */
-
     renderCurrentShape(mousePosition) {
         if (!this.currentShape || !mousePosition) return;
 
@@ -99,7 +108,14 @@ class ShapeModel {
         });
     }
 
-
+    /**
+     * FUNCTION      : updateCanvasSize()
+     * DESCRIPTION   : Updates the canvas size for the shapes.
+     * PARAMETERS    : 
+     *                  videoWidth - video stream width
+     *                  videoHeight - video stream height
+     * RETURNS       : None.
+     */
     updateCanvasSize(videoWidth, videoHeight) {
         this.videoWidth = videoWidth;
         this.videoHeight = videoHeight;
@@ -112,6 +128,12 @@ class ShapeModel {
         });
     } 
 
+    /**
+     * FUNCTION      : clearShapes()
+     * DESCRIPTION   : Clears all shapes and resets the shared canvas. 
+     * PARAMETERS    : None.
+     * RETURNS       : None.
+     */
     clearShapes() {
         this.shapes = [];
         this.drawingCanvas.clear();
@@ -126,6 +148,12 @@ class ShapeModel {
         });
     }
 
+    /**
+     * FUNCTION      : redrawShapes()
+     * DESCRIPTION   : Redraws all shapes.
+     * PARAMETERS    : None.
+     * RETURNS       : None.
+     */
     redrawShapes() {
         this.drawingCanvas.clear();
         this.shapes.forEach(shape => {
