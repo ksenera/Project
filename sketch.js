@@ -113,13 +113,15 @@ function mousePressed() {
 
 function mouseDragged() {
     const pos = getRelativeMousePosition(mouseX, mouseY);
-    if (uiController.currentTool) {
+    if (isWithinVideoArea(pos) && 
+        (uiController.currentTool === 'rectangle' || uiController.currentTool === 'ellipse')) {
         shapeModel.updateShape(pos.x, pos.y);
     }
 }
 
 function mouseReleased() {
-    if (uiController.currentTool && (uiController.currentTool === 'rectangle' || uiController.currentTool === 'ellipse')) {
+    if (uiController.currentTool && 
+        (uiController.currentTool === 'rectangle' || uiController.currentTool === 'ellipse')) {
         shapeModel.finalizeShape();
     }
 }
@@ -165,22 +167,15 @@ function keyPressed() {
  */
 function captureImage() {
     const captureCanvas = createGraphics(640, 480);
-
-    captureCanvas.image(videoStream.getFrame(), 0, 0, 640, 480);
-    drawQueue.forEach((item) => {
-        if (item.type === 'shape') {
-            RenderShape.renderShape(captureCanvas, item.data);
-        } else if (item.type === 'stamp') {
-            const { image, position } = item.data;
-            captureCanvas.image(
-                image,
-                position.x,
-                position.y,
-                stampModel.stampWidth,
-                stampModel.stampHeight
-            );
-        }
-    });
-
-    save(captureCanvas, 'captured_image.png');
+    
+    const currentFrame = videoStream.getFrame();
+    const filteredFrame = filterModel.applyFilter(currentFrame);
+    
+    captureCanvas.image(filteredFrame, 0, 0, 640, 480);
+    
+    captureCanvas.image(drawingCanvas, 0, 0);
+    
+    save(captureCanvas, 'photobooth_capture.png');
+    
+    captureCanvas.remove();
 }

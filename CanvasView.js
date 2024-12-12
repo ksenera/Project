@@ -41,7 +41,7 @@ class CanvasView {
         image(drawingCanvas, x, y);
 
         if (this.shapeModel.currentShape && mousePosition) {
-            RenderShape.renderShape(null, {
+            RenderShape.renderShape(drawingCanvas, {
                 ...this.shapeModel.currentShape,
                 endX: mousePosition.x,
                 endY: mousePosition.y,
