@@ -1,16 +1,19 @@
 /** 
  * CLASS       : RenderShape.js 
  * 
- * DESCRIPTION : Class to help keep logic separate and modular to render shapes in ShapeModel
+ * DESCRIPTION : Class to help keep logic separate and modular to render shapes in ShapeModel.cs.
  * 
  */
 
 
 class RenderShape {
     /**
-     * Function: renderShape() 
-     * Description: Renders a rectangle or ellipse 
-     * 
+     * FUNCTION      : renderShape()
+     * DESCRIPTION   : Renders a rectangle or ellipse on shared drawing canvas.
+     * PARAMETERS    : 
+     *                  targetCanvas - shared drawing canvas passed in from ShapeModel.js
+     *                  shape - the shape to render
+     * RETURNS       : None.
      */
     static renderShape(targetCanvas, shape) {
         const canvas = targetCanvas || window; 
@@ -26,6 +29,8 @@ class RenderShape {
                 canvas.rectMode(CORNERS);
                 canvas.rect(shape.startX, shape.startY, shape.endX, shape.endY);
             } else if (shape.type === 'ellipse') {
+
+                // ensures the shape is drawn correctly to avoid negative radius errors. 
                 const width = Math.abs(shape.endX - shape.startX);
                 const height = Math.abs(shape.endY - shape.startY);
                 const x = Math.min(shape.startX, shape.endX);

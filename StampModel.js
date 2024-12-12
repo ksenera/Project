@@ -1,7 +1,8 @@
 /** 
  * CLASS       : StampModel.js
  * 
- * DESCRIPTION : Model class for stamp placement logic
+ * DESCRIPTION : Model class for stamp placement logic. Methods manage selection and 
+ *               placement of stamps on the video stream.
  * 
  */
 
@@ -26,17 +27,16 @@ class StampModel {
     }
 
     /**
-     * Function      :
-     * Description   :
-     * 
-     * Parameters    :
-     * Return        :
-     * 
+     * FUNCTION      : addStamp()
+     * DESCRIPTION   : Adds a stamp to shared drawing canvas. Makes sure the mouse cursor is the center of 
+     *                 the stamp and if the mouse is close to the video stream bounds the stamp is clipped.
+     * PARAMETERS    : 
+     *                  mousePosition - mouse cursor position
+     * RETURNS       : None.
      */
     addStamp(mousePosition) {
-        // check video bounds if loop 
+        // check video bounds if cond 
         if (!this.selectedStamp) return;
-
 
         // first must calculate the centered position for the STAMP
         const x = mousePosition.x - this.stampWidth / 2;
@@ -44,7 +44,6 @@ class StampModel {
         
         // if my mouse hovers towards the edges of video stream 
         // when placing the stamp clip the edges that go past the boundaries 
-
         this.stamps.push({
             image: this.selectedStamp,
             position: { x, y },
@@ -60,6 +59,14 @@ class StampModel {
         );
     }
 
+    /**
+     * FUNCTION      : updateCanvasSize()
+     * DESCRIPTION   : Updates the canvas size and redraws the stamps.
+     * PARAMETERS    : 
+     *                  videoWidth - video stream width
+     *                  videoHeight - video stream height
+     * RETURNS       : None.
+     */
     updateCanvasSize(videoWidth, videoHeight) {
         this.videoWidth = videoWidth;
         this.videoHeight = videoHeight;
@@ -76,6 +83,12 @@ class StampModel {
         });
     }
 
+    /**
+     * FUNCTION      : clearStamps()
+     * DESCRIPTION   : Clears all stamps and redraws the video stream.
+     * PARAMETERS    : None.
+     * RETURNS       : None.
+     */
     clearStamps() {
         this.stamps = [];
         this.drawingCanvas.clear();

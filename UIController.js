@@ -1,19 +1,18 @@
 /** 
  * CLASS       : UIController.js
  * 
- * DESCRIPTION : Controller class that controls the UI 
+ * DESCRIPTION : Controller class that controls the UI, such as element tool selection, 
+ *               picking colors for the border and fills, stamp selection, and reset button.
  * 
  */
 
 class UIController {
     constructor(filterModel, stampModel, shapeModel) {
         this.filterModel = filterModel;
-        // this.filterSelector = createSelect();
 
         // adding ui controls for stamp model 
         this.stampModel = stampModel;
         this.stampButtons = [];
-        //this.stampButtons = [];
 
         this.shapeModel = shapeModel;
         this.currentTool = 'stamp';
@@ -21,12 +20,18 @@ class UIController {
         this.initUI();
     }
 
-    // temporary initializer just for the filter drop down menu.
-    // adding the stamp functionality to this initializer will focus on GUI
-    // after functionality works 
+    /**
+     * FUNCTION      : initUI()
+     * DESCRIPTION   : Initializes the user interface components: filter selection, 
+     *                  tool selection, color selection, border thickness selection, 
+     *                  and stamp selection. 
+     * PARAMETERS    : None.
+     * RETURNS       : None.
+     */
     initUI() {
         const controlPanel = select('#control-panel');
 
+        // filter selection 
         const filterSection = createDiv().addClass('control-section');
         filterSection.parent(controlPanel);
 
@@ -93,7 +98,6 @@ class UIController {
         });
 
         // existing stamp selection logic 
-
         const stampSection = createDiv().addClass('control-section');
         stampSection.parent(controlPanel);
 
@@ -116,16 +120,16 @@ class UIController {
         resetButton.mousePressed(() => this.resetCanvas()); 
     }
 
-    /**
-     * Function: createStampButton()
-     * Description: creates a stamp button with the stamp image so user knows 
-     *              which stamp they are selecting 
-     * Parameters:  img - the stamp to be display in the button 
-     *              index - the index of the stamp 
-     *              container - 
-     * Return:
-     */
 
+    /**
+     * FUNCTION      : createStampButton
+     * DESCRIPTION   : Creates a stamp button with the stamp image. 
+     * PARAMETERS    : 
+     *                  img - image of the stamp
+     *                  index - index of the stamp
+     *                  container - container to which the button should be appended
+     * RETURNS       : None.
+     */
     createStampButton(img, index, container) {
         const button = createButton('').parent(container).class('stamp-button');
         const tempCanvas = createGraphics(50, 50);
@@ -146,12 +150,12 @@ class UIController {
     }
 
     /**
-     * Function: selectStamp() 
-     * Description: 
-     * Parameters:
-     * Return: 
+     * FUNCTION      : selectStamp()
+     * DESCRIPTION   : Selects a stamp and updates the stamp model.
+     * PARAMETERS    : 
+     *                  selectedIndex - index of the stamp to select
+     * RETURNS       : None.
      */
-
     selectStamp(selectedIndex) {
         this.stampButtons.forEach((button, index) => {
             if (index === selectedIndex) {
@@ -171,10 +175,11 @@ class UIController {
     }
 
    /**
-     * Function: selectTool() 
-     * Description: 
-     * Parameters:
-     * Return: 
+     * FUNCTION      : selectTool()
+     * DESCRIPTION   : Selects a tool and updates the shape model.
+     * PARAMETERS    : 
+     *                  tool - the tool to select
+     * RETURNS       : None.
      */
     selectTool(tool) {
         console.log(`Tool selected: ${tool}`); 
@@ -185,20 +190,32 @@ class UIController {
         }
     }
 
+    /**
+     * FUNCTION      : deselectStamps()
+     * DESCRIPTION   : Deselects all stamps.
+     * PARAMETERS    : None.
+     * RETURNS       : None.
+     */
     deselectStamps() {
         this.stampButtons.forEach((button) => button.removeClass('selected'));
         this.stampModel.deselectStamp();
     }
 
+    /**
+     * FUNCTION      : deselectOtherTools()
+     * DESCRIPTION   : Deselects all other tools.
+     * PARAMETERS    : None.
+     * RETURNS       : None.
+     */
     deselectOtherTools() {
         this.shapeModel.setCurrentTool(null);
     }
 
     /**
-     * Function: resetCanvas() 
-     * Description: 
-     * Parameters:
-     * Return: 
+     * FUNCTION      : resetCanvas()
+     * DESCRIPTION   : Resets the canvas, clears all shapes, stamps, and filters.
+     * PARAMETERS    : None.
+     * RETURNS       : None.
      */
 
     resetCanvas() {
