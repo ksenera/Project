@@ -1,3 +1,11 @@
+/* 
+ * FILE          : sketch.js 
+ * PROJECT       : SENG3040 - Project
+ * PROGRAMMER    : Kushika Senera 
+ * FIRST VERSION : 11/12/2024
+ * DESCRIPTION   : The purpose of this sketch.js file is to 
+ */
+
 
 let videoStream;
 let canvasView;
@@ -9,6 +17,14 @@ let shapeModel;
 
 let uiController;
 
+let drawQueue = [];
+
+/**
+ * FUNCTION      : setup
+ * DESCRIPTION   : Sets up the canvas and initializes the SolarSystemController.
+ * PARAMETERS    : None.
+ * RETURNS       : None.
+ */
 function setup() {
     const canvas = createCanvas(windowWidth, windowHeight);
 
@@ -26,6 +42,14 @@ function setup() {
     
 }
 
+
+/** 
+ * FUNCTION      : draw()
+ * DESCRIPTION   : Main loop of the sketch program. Has function calls for other param
+ *                 draw functions. 
+ * PARAMETERS    : None. 
+ * RETURNS       : Runs the sketch on Port 5500.
+ */
 function draw() {
     background(220);
 
@@ -43,15 +67,13 @@ function draw() {
     canvasView.render(filteredFrame, mousePosition);
 }
 
-/**
- * Function      :
- * Description   :
- * 
- * Parameters    :
- * Return        :
- * 
+/** 
+ * FUNCTION      : draw()
+ * DESCRIPTION   : Main loop of the sketch program. Has function calls for other param
+ *                 draw functions. 
+ * PARAMETERS    : None. 
+ * RETURNS       : Runs the sketch on Port 5500.
  */
-
 function beginClip(x, y, width, height) {
     push(); 
     beginShape();
@@ -68,14 +90,13 @@ function endClip() {
 }
 
 /**
- * Function      : mousePressed() 
- * Description   : when the mouse is pressed within the video stream area 
+ * FUNCTION      : mousePressed() 
+ * DESCRIPTION   : when the mouse is pressed within the video stream area 
  *                 and after a stamp is selected in the gui area of the window 
  *                 a stamp can be placed to the video stream 
- * Parameters    : None. 
- * Return        : None. 
+ * PARAMETERS    : None. 
+ * RETURNS       : None. 
  */
-
 function mousePressed() {
     const pos = getRelativeMousePosition(mouseX, mouseY);
     if (isWithinVideoArea(pos)) {
@@ -107,14 +128,13 @@ function windowResized() {
     stampModel.updateCanvasSize(640, 480);
 }
 
-/**
- * Function     : getRelativeMousePosition() 
- * Description  :
- * Parameters   : mx - 
- *                my -
- * Return       : {x, y}
+/** 
+ * FUNCTION      : draw()
+ * DESCRIPTION   : Main loop of the sketch program. Has function calls for other param
+ *                 draw functions. 
+ * PARAMETERS    : None. 
+ * RETURNS       : Runs the sketch on Port 5500.
  */
-
 function getRelativeMousePosition(mx, my) {
   const videoX = (windowWidth - 640) / 2;
   const videoY = (windowHeight - 480) / 2;
@@ -134,6 +154,30 @@ function keyPressed() {
     }
 }
 
+/** 
+ * FUNCTION      : captureImage()
+ * DESCRIPTION   : 
+ * PARAMETERS    : None. 
+ * RETURNS       : 
+ */
 function captureImage() {
-    
+    const captureCanvas = createGraphics(640, 480);
+
+    captureCanvas.image(videoStream.getFrame(), 0, 0, 640, 480);
+    drawQueue.forEach((item) => {
+        if (item.type === 'shape') {
+            RenderShape.renderShape(captureCanvas, item.data);
+        } else if (item.type === 'stamp') {
+            const { image, position } = item.data;
+            captureCanvas.image(
+                image,
+                position.x,
+                position.y,
+                stampModel.stampWidth,
+                stampModel.stampHeight
+            );
+        }
+    });
+
+    save(captureCanvas, 'captured_image.png');
 }
