@@ -2,8 +2,9 @@
  * CLASS       : CanvasView.js 
  * 
  * DESCRIPTION : View class that renders the canvas for the video stream 
- *               as well as other canvases for stamps, rectangle and ellipse 
- *               selects. 
+ *               as well the shared drawing canvas for stamps, rectangle and ellipse 
+ *               selects. Methods manage the drawing order and shapes and stamps are 
+ *               displayed and clipped correctly within the video stream. 
  * 
  */
 
@@ -18,11 +19,25 @@ class CanvasView {
         this.shapeModel = shapeModel;
     }
     
+    /**
+     * FUNCTION      : updateDimensions()
+     * DESCRIPTION   : Updates the dimensions of the canvas view.
+     * PARAMETERS    :  windowWidth - resized width of the window
+     *                  windowHeight - resized height of the window
+     * RETURNS       : None.
+     */
     updateDimensions(windowWidth, windowHeight) {
         this.windowWidth = windowWidth;
         this.windowHeight = windowHeight;
     }
 
+    /**
+     * FUNCTION      : render()
+     * DESCRIPTION   : Renders the video stream and the shared drawing canvas.
+     * PARAMETERS    :  videoFrame - the current frame from the video stream
+     *                  mousePosition - the current position of the mouse
+     * RETURNS       : None.
+     */
     render(videoFrame, mousePosition) {
         // find center position of the video stream
         const x = (this.windowWidth - this.videoWidth) / 2;
@@ -69,19 +84,8 @@ class CanvasView {
             );
         }
 
-
         endClip();
         pop();
-
-
-        //push();
-        //beginClip(x, y, this.videoWidth, this.videoHeight);
-
-        //image(this.shapeModel.getShapesCanvas(), x, y);
-        //this.shapeModel.renderCurrentShape(mousePosition);
-
-        //endClip();
-        //pop();
 
         noFill();
         stroke(0);
