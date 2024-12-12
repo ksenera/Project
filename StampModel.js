@@ -6,14 +6,15 @@
  */
 
 class StampModel {
-    constructor(videoWidth, videoHeight, stampWidth = 150, stampHeight = 150) {
+    constructor(videoWidth, videoHeight, sharedCanvas, stampWidth = 150, stampHeight = 150) {
         this.videoWidth = videoWidth;
         this.videoHeight = videoHeight;
         this.stampWidth = stampWidth;
         this.stampHeight = stampHeight;
         this.selectedStamp = null; // 
         this.stamps = []; // array for the stamped stamps on video feed
-        this.stampsCanvas = createGraphics(videoWidth, videoHeight); // new canvas for stamps 
+        //this.stampsCanvas = createGraphics(videoWidth, videoHeight); // new canvas for stamps
+        this.drawingCanvas = sharedCanvas;
     }
 
     // methods for selecting and deselecting stamps 
@@ -51,7 +52,7 @@ class StampModel {
         });
 
         // finally draw on stamps canvas specifically 
-        this.stampsCanvas.image(
+        this.drawingCanvas.image(
             this.selectedStamp,
             x,
             y,
@@ -68,10 +69,10 @@ class StampModel {
     updateCanvasSize(videoWidth, videoHeight) {
         this.videoWidth = videoWidth;
         this.videoHeight = videoHeight;
-        this.stampsCanvas = createGraphics(videoWidth, videoHeight);
-        this.stampsCanvas.clear();
+        this.drawingCanvasCanvas = createGraphics(videoWidth, videoHeight);
+        this.drawingCanvasCanvas.clear();
         this.stamps.forEach(stamp => {
-            this.stampsCanvas.image(
+            this.drawingCanvasCanvas.image(
                 stamp.image,
                 stamp.position.x,
                 stamp.position.y,
@@ -83,6 +84,7 @@ class StampModel {
 
     clearStamps() {
         this.stamps = [];
-        this.stampsCanvas.clear();
+        this.drawingCanvas.clear();
+        shapeModel.redrawShapes();
     }
 }

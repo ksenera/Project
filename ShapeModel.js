@@ -6,7 +6,7 @@
  */
 
 class ShapeModel {
-    constructor(videoWidth, videoHeight) {
+    constructor(videoWidth, videoHeight, sharedCanvas) {
         this.videoWidth = videoWidth;
         this.videoHeight = videoHeight;
         this.shapes = []; 
@@ -15,7 +15,8 @@ class ShapeModel {
         this.fillColor = '#FFFFFF';
         this.borderColor = '#000000';
         this.borderThickness = 1;
-        this.shapesCanvas = createGraphics(videoWidth, videoHeight);
+        //this.shapesCanvas = createGraphics(videoWidth, videoHeight);
+        this.drawingCanvas = sharedCanvas;
     }
 
     setCurrentTool(tool) {
@@ -77,7 +78,7 @@ class ShapeModel {
         if (this.currentShape) {
             this.shapes.push(this.currentShape);
             // add call to utility class rendering shapes 
-            RenderShape.renderShape(this.shapesCanvas, this.currentShape);
+            RenderShape.renderShape(this.drawingCanvas, this.currentShape);
             this.currentShape = null;
         }
     }
@@ -117,6 +118,21 @@ class ShapeModel {
 
     clearShapes() {
         this.shapes = [];
-        this.shapesCanvas.clear();
+        this.drawingCanvas.clear();
+        stampModel.stamps.forEach(stamp => {
+            this.drawingCanvas.image(
+                stamp.image,
+                stamp.position.x,
+                stamp.position.y,
+                stampModel.stampWidth,
+                stampModel.stampHeight
+            );
+        });
+    }
+
+    redrawShapes() {
+        this.shapes.forEach(shape => {
+            RenderShape.renderShape(this.drawingCanvas, shape);
+        });
     }
 }

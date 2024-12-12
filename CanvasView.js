@@ -36,7 +36,17 @@ class CanvasView {
         beginClip(x, y, this.videoWidth, this.videoHeight);
 
         // render the stamps canvas
-        image(this.stampModel.getStampsCanvas(), x, y);
+        // image(this.stampModel.getStampsCanvas(), x, y);
+
+        image(drawingCanvas, x, y);
+
+        if (this.shapeModel.currentShape && mousePosition) {
+            RenderShape.renderShape(null, {
+                ...this.shapeModel.currentShape,
+                endX: mousePosition.x,
+                endY: mousePosition.y,
+            });
+        }
 
         // to render the selected stamp actually following the mouse cursor 
         if (this.stampModel.selectedStamp && mousePosition) { 
@@ -60,14 +70,14 @@ class CanvasView {
         pop();
 
 
-        push();
-        beginClip(x, y, this.videoWidth, this.videoHeight);
+        //push();
+        //beginClip(x, y, this.videoWidth, this.videoHeight);
 
-        image(this.shapeModel.getShapesCanvas(), x, y);
-        this.shapeModel.renderCurrentShape(mousePosition);
+        //image(this.shapeModel.getShapesCanvas(), x, y);
+        //this.shapeModel.renderCurrentShape(mousePosition);
 
-        endClip();
-        pop();
+        //endClip();
+        //pop();
 
         noFill();
         stroke(0);

@@ -17,7 +17,7 @@ let shapeModel;
 
 let uiController;
 
-let drawQueue = [];
+let drawingCanvas;
 
 /**
  * FUNCTION      : setup
@@ -31,11 +31,14 @@ function setup() {
     // with new css changes make sure the video stream renders 
     canvas.parent('canvas-container');
 
+    // shared canvas to render shapes and stamps in order 
+    drawingCanvas = createGraphics(640, 480);
+
     // Initializing the video stream and canvas view
     videoStream = new VideoStream(640, 480);
     filterModel = new FilterModel(640, 480);
-    stampModel = new StampModel(640, 480);
-    shapeModel = new ShapeModel(640, 480);
+    stampModel = new StampModel(640, 480, drawingCanvas);
+    shapeModel = new ShapeModel(640, 480, drawingCanvas);
     canvasView = new CanvasView(windowWidth, windowHeight, 640, 480, stampModel, shapeModel);
     uiController = new UIController(filterModel, stampModel, shapeModel);
     videoStream.start();
