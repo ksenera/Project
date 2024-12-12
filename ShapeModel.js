@@ -77,7 +77,6 @@ class ShapeModel {
     finalizeShape() {
         if (this.currentShape) {
             this.shapes.push(this.currentShape);
-            // add call to utility class rendering shapes 
             RenderShape.renderShape(this.drawingCanvas, this.currentShape);
             this.currentShape = null;
         }
@@ -131,6 +130,7 @@ class ShapeModel {
     }
 
     redrawShapes() {
+        this.drawingCanvas.clear();
         this.shapes.forEach(shape => {
             RenderShape.renderShape(this.drawingCanvas, shape);
         });

@@ -86,8 +86,6 @@ class UIController {
         this.thicknessSelector.option("1");
         this.thicknessSelector.option("2");
         this.thicknessSelector.option("3");
-        this.thicknessSelector.option("4");
-        this.thicknessSelector.option("5");
         this.thicknessSelector.selected("1");
         this.thicknessSelector.changed(() => {
             const value = this.thicknessSelector.value();
@@ -184,8 +182,6 @@ class UIController {
         this.currentTool = tool;
         if (this.shapeModel) {
             this.shapeModel.setCurrentTool(tool);
-        } else {
-            console.error("ShapeModel is undefined in UIController.");
         }
     }
 

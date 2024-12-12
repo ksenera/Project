@@ -35,17 +35,21 @@ class CanvasView {
         push();
         beginClip(x, y, this.videoWidth, this.videoHeight);
 
-        // render the stamps canvas
-        // image(this.stampModel.getStampsCanvas(), x, y);
-
         image(drawingCanvas, x, y);
 
+        // draw the shape preview on a separate layer for visual feedback
         if (this.shapeModel.currentShape && mousePosition) {
-            RenderShape.renderShape(drawingCanvas, {
+            // graphics buffer for preview created just for visual feedback
+            let previewLayer = createGraphics(this.videoWidth, this.videoHeight);
+            
+            RenderShape.renderShape(previewLayer, {
                 ...this.shapeModel.currentShape,
                 endX: mousePosition.x,
-                endY: mousePosition.y,
+                endY: mousePosition.y
             });
+    
+            image(previewLayer, x, y);
+            previewLayer.remove();
         }
 
         // to render the selected stamp actually following the mouse cursor 
