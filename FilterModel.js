@@ -1,7 +1,8 @@
 /** 
  * CLASS       : FilerModel.js 
  * 
- * DESCRIPTION : Model class for filter logic. 
+ * DESCRIPTION : Model class for filter logic. Methods manage the application of filters 
+ *               to the video stream. 
  * 
  */
 
@@ -21,6 +22,13 @@ class FilterModel {
         };
     }
 
+    /**
+     * FUNCTION      : setCurrentFilter()
+     * DESCRIPTION   : Sets the current filter to the filter in switch case.
+     * PARAMETERS    : 
+     *                  filterName - current filter name
+     * RETURNS       : None.
+     */
     setCurrentFilter(filterName) {
         if (this.filters[filterName]) {
           this.currentFilter = filterName;
@@ -34,11 +42,12 @@ class FilterModel {
     }
 
     /**
-     * Function         : applyFilterType() 
-     * Description      : uses switch case to apply a filter on the filter canvas.
-     * Parameters       : filterType - 
-     *                    frame - 
-     * Return           :
+     * FUNCTION      : applyFilterType()
+     * DESCRIPTION   : Uses switch case to apply a filter on the filter canvas.
+     * PARAMETERS    : 
+     *                  filterType - filter being applied
+     *                  frame - video stream frame
+     * RETURNS       : None.
      */
 
     applyFilterType(filterType, frame) {
@@ -68,9 +77,8 @@ class FilterModel {
             break;
 
         default:
-            break;
+                break;
         }
-
         return this.filterCanvas;
     }
 }

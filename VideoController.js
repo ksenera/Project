@@ -15,7 +15,6 @@ class VideoStream {
     }
 
     start() {
-
     }
 
     getFrame() {

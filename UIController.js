@@ -64,14 +64,13 @@ class UIController {
         const colorSection = createDiv().addClass('control-section');
         colorSection.parent(controlPanel);  
 
-        const borderColorLabel = createElement('label', 'Border Color:');
-        borderColorLabel.parent(colorSection);
-
         createElement('label', 'Border Color:').parent(colorSection);
         this.borderColorPicker = createColorPicker('#000000').parent(colorSection);
         this.borderColorPicker.input(() => {
             this.shapeModel.setBorderColor(this.borderColorPicker.value());
         });
+
+        createDiv().style('margin-top', '10px').parent(colorSection);
 
         createElement('label', 'Fill Color:').parent(colorSection);
         this.fillColorPicker = createColorPicker('#FFFFFF').parent(colorSection);
